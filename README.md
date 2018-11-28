@@ -65,5 +65,14 @@ $ scripts/setup-app-id.sh --setup
 
 Copy 'APPID_TENANTID', 'APPID_OAUTHURL', 'APPID_CLIENTID' and 'APPID_SECRET' in [local.env](local.env).
 
+Create a CF alias so that App ID can be used by Cloud Functions API Management.
+
+```
+$ ibmcloud cf services
+$ ibmcloud resource service-instances
+$ ibmcloud resource service-alias-create app-id-serverless --instance-name appid-webapp
+$ ibmcloud cf services
+```
+
 **to be continued**
 
