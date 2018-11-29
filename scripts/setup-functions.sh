@@ -111,9 +111,9 @@ function setup() {
   npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../function-login/swagger-login.json xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx $NAMESPACE
 
   _out Deploying API: login
-  ibmcloud wsk api create --config-file ${root_folder}/../function-login/swagger-login.json
-
-  # tbd: add url to local.env
+  API_LOGIN=$(ibmcloud wsk api create --config-file ${root_folder}/../function-login/swagger-login.json | awk '/https:/{ print $1 }')
+  _out API_LOGIN: $API_LOGIN
+  printf "\nAPI_LOGIN=$API_LOGIN" >> $ENV_FILE
 }
 
 # Main script starts here
