@@ -42,6 +42,7 @@ Make sure you have the following tools installed:
 * [ibmcloud CLI](https://console.bluemix.net/docs/cli/index.html)
 * [node](https://nodejs.org/en/download/)
 * [curl](https://curl.haxx.se/download.html)
+* [ng](https://github.com/angular/angular-cli/wiki)
 
 ## Local Environment Setup
 

@@ -4,6 +4,12 @@ serverless-web-application.json
 local.env
 scripts/deploy-app-id.log
 scripts/deploy-cloudant.log
+scripts/deploy-functions.log
 scripts/cloudant/node_modules
 scripts/cloudant/package-lock.json
 scripts/cloudant/.env
+function-login/config.json
+
+function-protected
+
+angular

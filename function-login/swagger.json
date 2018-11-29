@@ -1,0 +1,66 @@
+{
+    "swagger": "2.0",
+    "basePath": "/login",
+    "info": {
+        "title": "login",
+        "version": "1.0"
+    },
+    "paths": {
+        "/login": {
+            "get": {
+                "operationId": "getLogin",
+                "responses": {
+                    "200": {
+                        "description": "A successful invocation response"
+                    }
+                },
+                "x-openwhisk": {
+                    "action": "oauth-login-and-redirect",
+                    "namespace": "niklas_heidloff@de.ibm.com_demo",
+                    "package": "default",
+                    "url": "https://openwhisk.ng.bluemix.net/api/v1/web/niklas_heidloff@de.ibm.com_demo/default/oauth-login-and-redirect.http"
+                }
+            }
+        }
+    },
+    "x-ibm-configuration": {
+        "assembly": {
+            "execute": [
+                {
+                    "operation-switch": {
+                        "case": [
+                            {
+                                "execute": [
+                                    {
+                                        "set-variable": {
+                                            "actions": [
+                                                {
+                                                    "set": "message.headers.X-Require-Whisk-Auth",
+                                                    "value": "150261be-6ffa-40b5-b69a-76785b3486e1"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "invoke": {
+                                            "target-url": "https://openwhisk.ng.bluemix.net/api/v1/web/niklas_heidloff@de.ibm.com_demo/default/oauth-login-and-redirect.http",
+                                            "verb": "keep"
+                                        }
+                                    }
+                                ],
+                                "operations": [
+                                    "getLogin"
+                                ]
+                            }
+                        ],
+                        "otherwise": [],
+                        "title": "whisk-invoke"
+                    }
+                }
+            ]
+        },
+        "cors": {
+            "enabled": true
+        }
+    }
+}
