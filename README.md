@@ -19,10 +19,17 @@ Find out more about the main components:
 * [IBM App ID](https://console.bluemix.net/catalog/services/appid)
 * [IBM Cloudant](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db)
 
+### ----------------------------------------------------------------------------------------------
 
-## Setup
+## Outline
 
-**Prerequisites**
+* [Prerequisites](#Prerequisites)
+* [Local Environment Setup](#Local)
+* [App ID Setup](#App)
+
+### ----------------------------------------------------------------------------------------------
+
+## Prerequisites
 
 Create an IBM Cloud lite account (free, no credit card required):
 
@@ -35,7 +42,7 @@ Make sure you have the following tools installed:
 * [Node](https://nodejs.org/en/download/)
 * [curl](https://curl.haxx.se/download.html)
 
-**Terminal Setup**
+## Local Environment Setup
 
 ```
 $ git clone https://github.com/nheidloff/serverless-web-application-ibm-cloud.git
@@ -51,21 +58,30 @@ $ cat serverless-web-application.json
 
 In [local.env](local.env) define 'IBMCLOUD_API_KEY', 'IBMCLOUD_ORG', 'IBMCLOUD_SPACE' and 'BLUEMIX_REGION' to match the apikey in [serverless-web-application.json](serverless-web-application.json) and the org, space and region name that you're using (see the outputs in your terminal when following the steps above).
 
-**App ID Setup**
+## App ID Setup
+
+[App ID](https://console.bluemix.net/catalog/services/appid) is used to authenticate users. 
+
+**Create new App ID service instance:**
 
 Run the following command to create these artifacts:
 
-* APP ID service instance
-* APP ID credentials
-* APP ID test user (user@demo.email, verysecret)
+* App ID service instance
+* App ID Cloud Foundry alias
+* App ID credentials
+* App ID test user (user@demo.email, verysecret)
 
 ```
-$ scripts/setup-app-id.sh --setup
+$ scripts/setup-app-id.sh
 ```
 
 Copy 'APPID_TENANTID', 'APPID_OAUTHURL', 'APPID_CLIENTID' and 'APPID_SECRET' in [local.env](local.env).
 
-Create a CF alias so that App ID can be used by Cloud Functions API Management.
+**Reuse an existing App ID service instance:**
+
+The IBM Cloud lite plan only allows one App ID instance in your organization. If you have an App ID instance you can use it rather than creating a new one. In this case copy the credentials from your instance and paste them in [local.env](local.env).
+
+Additionally create a CF alias so that App ID can be used by Cloud Functions API Management.
 
 ```
 $ ibmcloud cf services

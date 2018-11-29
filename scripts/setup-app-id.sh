@@ -67,13 +67,10 @@ function ibmcloud_login() {
   ibmcloud target
 }
 
-function usage() {
-  _err -e "Usage: $0 [--setup,--env]"
-}
-
 function setup() {
   _out Creating App ID service instance
   ibmcloud resource service-instance-create app-id-serverless appid lite $BLUEMIX_REGION
+  ibmcloud resource service-alias-create app-id-serverless --instance-name appid-webapp
 
   _out Creating App ID credentials
   ibmcloud resource service-key-create app-id-serverless-credentials Reader --instance-name app-id-serverless
@@ -123,18 +120,7 @@ export IBMCLOUD_API_KEY BLUEMIX_REGION
 export TF_VAR_appid_plan=${IBMCLOUD_APPID_PLAN:-"lite"}
 export TF_VAR_cloudant_plan=${IBMCLOUD_CLOUDANT_PLAN:-"Lite"}
 
-WHAT_TO_DO=${1:-"usage"}
-
-case "$WHAT_TO_DO" in
-"--setup" )
-shift
 _out Full install output in $LOG_FILE
 ibmcloud_login
 setup $@
-;;
-"--env" )
-shift
-_err "==> Output of \"env\" command:"
-env $@ 4>&3 >&3
-;;
 esac
