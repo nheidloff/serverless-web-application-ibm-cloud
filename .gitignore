@@ -6,9 +6,14 @@ scripts/deploy-app-id.log
 scripts/deploy-cloudant.log
 scripts/deploy-functions.log
 scripts/cloudant/node_modules
+scripts/text-replace/node_modules
 scripts/cloudant/package-lock.json
+scripts/text-replace/package-lock.json
+scripts/text-replace/etc
+scripts/cloudant/etc
 scripts/cloudant/.env
 function-login/config.json
+function-login/swagger-login.json
 
 function-protected
 

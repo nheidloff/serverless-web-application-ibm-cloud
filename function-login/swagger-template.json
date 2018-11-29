@@ -15,10 +15,10 @@
                     }
                 },
                 "x-openwhisk": {
-                    "action": "oauth-login-and-redirect",
-                    "namespace": "niklas_heidloff@de.ibm.com_demo",
-                    "package": "default",
-                    "url": "https://openwhisk.ng.bluemix.net/api/v1/web/niklas_heidloff@de.ibm.com_demo/default/oauth-login-and-redirect.http"
+                    "action": "login-and-redirect",
+                    "namespace": "xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx",
+                    "package": "serverless-web-app-generic",
+                    "url": "https://openwhisk.ng.bluemix.net/api/v1/web/xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx/serverless-web-app-generic/login-and-redirect"
                 }
             }
         }
@@ -43,7 +43,7 @@
                                     },
                                     {
                                         "invoke": {
-                                            "target-url": "https://openwhisk.ng.bluemix.net/api/v1/web/niklas_heidloff@de.ibm.com_demo/default/oauth-login-and-redirect.http",
+                                            "target-url": "https://openwhisk.ng.bluemix.net/api/v1/web/xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx/serverless-web-app-generic/login-and-redirect",
                                             "verb": "keep"
                                         }
                                     }

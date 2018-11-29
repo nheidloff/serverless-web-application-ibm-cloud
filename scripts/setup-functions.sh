@@ -102,8 +102,18 @@ function setup() {
   _out Deploying sequence: serverless-web-app-generic/login-and-redirect
   ibmcloud wsk action update --sequence serverless-web-app-generic/login-and-redirect serverless-web-app-generic/login.js,serverless-web-app-generic/redirect -a web-export true 
 
+  _out Downloading npm modules
+  npm --prefix ${root_folder}/text-replace install ${root_folder}/text-replace
+
+  _out Creating swagger.json
+  cp ${root_folder}/../function-login/swagger-template.json ${root_folder}/../function-login/swagger-login.json
+  readonly NAMESPACE="${IBMCLOUD_ORG}_${IBMCLOUD_SPACE}"
+  npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../function-login/swagger-login.json xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx $NAMESPACE
+
   _out Deploying API: login
-  # tbd
+  ibmcloud wsk api create --config-file ${root_folder}/../function-login/swagger-login.json
+
+  # tbd: add url to local.env
 }
 
 # Main script starts here
@@ -115,7 +125,7 @@ if [ ! -f $ENV_FILE ]; then
   exit 1
 fi
 source $ENV_FILE
-export IBMCLOUD_API_KEY BLUEMIX_REGION APPID_TENANTID APPID_OAUTHURL APPID_CLIENTID APPID_SECRET CLOUDANT_USERNAME CLOUDANT_PASSWORD
+export IBMCLOUD_ORG IBMCLOUD_API_KEY BLUEMIX_REGION APPID_TENANTID APPID_OAUTHURL APPID_CLIENTID APPID_SECRET CLOUDANT_USERNAME CLOUDANT_PASSWORD IBMCLOUD_SPACE
 
 _out Full install output in $LOG_FILE
 ibmcloud_login
