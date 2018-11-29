@@ -24,7 +24,7 @@ Find out more about the main components:
 * [Prerequisites](#prerequisites)
 * [Local Environment Setup](#local-environment-setup)
 * [App ID Setup](#app-id-setup)
-* [Cloudand Setup](#cloudant-setup)
+* [Cloudant Setup](#cloudant-setup)
 * Cloud Functions Setup (to be done)
 * Web Application Setup (to be done)
 * Cloud Object Storage Setup (to be done)
@@ -40,7 +40,7 @@ Make sure you have the following tools installed:
 
 * [git](https://git-scm.com/downloads)
 * [ibmcloud CLI](https://console.bluemix.net/docs/cli/index.html)
-* [Node](https://nodejs.org/en/download/)
+* [node](https://nodejs.org/en/download/)
 * [curl](https://curl.haxx.se/download.html)
 
 ## Local Environment Setup
@@ -93,7 +93,7 @@ $ ibmcloud resource service-alias-create app-id-serverless --instance-name app-i
 $ ibmcloud cf services
 ```
 
-## Cloudand Setup
+## Cloudant Setup
 
 [IBM Cloudant](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db) is used to store data used by the web application.
 
