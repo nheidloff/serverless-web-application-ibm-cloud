@@ -24,7 +24,7 @@ Find out more about the main components:
 * [Prerequisites](#prerequisites)
 * [Local Environment Setup](#local-environment-setup)
 * [App ID Setup](#app-id-setup)
-* [Cloudant Setup](#cloudant-setup)
+* Cloudand Setup (to be done)
 * Cloud Functions Setup (to be done)
 * Web Application Setup (to be done)
 * Cloud Object Storage Setup (to be done)
@@ -78,11 +78,11 @@ Run the following command to create these artifacts:
 $ scripts/setup-app-id.sh
 ```
 
-Copy 'APPID_TENANTID', 'APPID_OAUTHURL', 'APPID_CLIENTID' and 'APPID_SECRET' in [local.env](local.env).
-
 **Reuse an existing App ID service instance:**
 
-The IBM Cloud lite plan only allows one App ID instance in your organization. If you have an App ID instance you can use it rather than creating a new one. In this case copy the credentials from your instance and paste them in [local.env](local.env).
+The IBM Cloud lite plan only allows one App ID instance in your organization. If you have an App ID instance you can use it rather than creating a new one. 
+
+In this case copy 'APPID_TENANTID', 'APPID_OAUTHURL', 'APPID_CLIENTID' and 'APPID_SECRET' from your service credentials and paste them in [local.env](local.env).
 
 Additionally create a CF alias so that App ID can be used by Cloud Functions API Management.
 
@@ -92,9 +92,6 @@ $ ibmcloud resource service-instances
 $ ibmcloud resource service-alias-create app-id-serverless --instance-name appid-webapp
 $ ibmcloud cf services
 ```
-
-## Cloudant Setup
-
 
 
 
