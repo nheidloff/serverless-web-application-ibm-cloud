@@ -19,15 +19,16 @@ Find out more about the main components:
 * [IBM App ID](https://console.bluemix.net/catalog/services/appid)
 * [IBM Cloudant](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db)
 
-### ----------------------------------------------------------------------------------------------
-
 ## Outline
 
-* [Prerequisites](#Prerequisites)
-* [Local Environment Setup](#Local)
-* [App ID Setup](#App)
-
-### ----------------------------------------------------------------------------------------------
+* [Prerequisites](#prerequisites)
+* [Local Environment Setup](#local-environment-setup)
+* [App ID Setup](#app-id-setup)
+* Cloudant Setup (to be done)
+* Cloud Functions Setup (to be done)
+* Web Application Setup (to be done)
+* Cloud Object Storage Setup (to be done)
+* Custom Domain Setup (to be done)
 
 ## Prerequisites
 
