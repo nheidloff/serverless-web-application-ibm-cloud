@@ -24,7 +24,7 @@ Find out more about the main components:
 * [Prerequisites](#prerequisites)
 * [Local Environment Setup](#local-environment-setup)
 * [App ID Setup](#app-id-setup)
-* Cloudand Setup (to be done)
+* [Cloudand Setup](#cloudant-setup)
 * Cloud Functions Setup (to be done)
 * Web Application Setup (to be done)
 * Cloud Object Storage Setup (to be done)
@@ -80,7 +80,7 @@ $ scripts/setup-app-id.sh
 
 **Reuse an existing App ID service instance:**
 
-The IBM Cloud lite plan only allows one App ID instance in your organization. If you have an App ID instance you can use it rather than creating a new one. 
+The IBM Cloud lite plan only allows one App ID instance in your organization. If you have an App ID instance, you can use it rather than creating a new one. 
 
 In this case copy 'APPID_TENANTID', 'APPID_OAUTHURL', 'APPID_CLIENTID' and 'APPID_SECRET' from your service credentials and paste them in [local.env](local.env).
 
@@ -89,9 +89,34 @@ Additionally create a CF alias so that App ID can be used by Cloud Functions API
 ```
 $ ibmcloud cf services
 $ ibmcloud resource service-instances
-$ ibmcloud resource service-alias-create app-id-serverless --instance-name appid-webapp
+$ ibmcloud resource service-alias-create app-id-serverless --instance-name app-id-serverless
 $ ibmcloud cf services
 ```
 
+## Cloudand Setup
 
+[IBM Cloudant](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db) is used to store data used by the web application.
 
+**Create new Cloudant service instance:**
+
+Run the following command to create these artifacts:
+
+* Cloudant service instance
+* Cloudant database
+* Cloudant documents and an index
+
+```
+$ scripts/setup-cloudant.sh
+```
+
+**Reuse an existing Cloudant service instance:**
+
+The IBM Cloud lite plan only allows one Cloudant instance in your organization. If you have a Cloudant instance, you can use it rather than creating a new one. 
+
+In this case copy 'CLOUDANT_USERNAME' and 'CLOUDANT_PASSWORD' from your service credentials and paste them in [local.env](local.env).
+
+Additionally run this command to create the database and documents:
+
+```
+$ scripts/setup-cloudant.sh
+```

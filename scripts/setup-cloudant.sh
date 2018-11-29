@@ -20,8 +20,9 @@
 root_folder=$(cd $(dirname $0); pwd)
 
 # SETUP logging (redirect stdout and stderr to a log file)
-readonly LOG_FILE="${root_folder}/deploy-app-id.log"
+readonly LOG_FILE="${root_folder}/deploy-cloudant.log"
 readonly ENV_FILE="${root_folder}/../local.env"
+readonly CLOUDANT_ENV_FILE="${root_folder}/cloudant/.env"
 touch $LOG_FILE
 exec 3>&1 # Save stdout
 exec 4>&2 # Save stderr
@@ -68,44 +69,28 @@ function ibmcloud_login() {
 }
 
 function setup() {
-  _out Creating App ID service instance
-  ibmcloud resource service-instance-create app-id-serverless appid lite $BLUEMIX_REGION
-  ibmcloud resource service-alias-create app-id-serverless --instance-name app-id-serverless
-
-  _out Creating App ID credentials
-  ibmcloud resource service-key-create app-id-serverless-credentials Reader --instance-name app-id-serverless
-  ibmcloud resource service-key app-id-serverless-credentials
-  APPID_MGMTURL=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/managementUrl/{ print $2 }')
-  APPID_TENANTID=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/tenantId/{ print $2 }')
-  _out APPID_TENANTID: $APPID_TENANTID
-  printf "\nAPPID_TENANTID=$APPID_TENANTID" >> $ENV_FILE
-  APPID_OAUTHURL=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/oauthServerUrl/{ print $2 }')
-  _out APPID_OAUTHURL: $APPID_OAUTHURL
-  printf "\nAPPID_OAUTHURL=$APPID_OAUTHURL" >> $ENV_FILE
-  APPID_CLIENTID=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/clientId/{ print $2 }')
-  _out APPID_CLIENTID: $APPID_CLIENTID
-  printf "\nAPPID_CLIENTID=$APPID_CLIENTID" >> $ENV_FILE
-  APPID_SECRET=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/secret/{ print $2 }')
-  _out APPID_SECRET: $APPID_SECRET
-  printf "\nAPPID_SECRET=$APPID_SECRET" >> $ENV_FILE
+  _out Creating Cloudant service instance
+  ibmcloud resource service-instance-create cloudant-serverless cloudantnosqldb lite $BLUEMIX_REGION
   
-  DEMO_EMAIL=user@demo.email
-  DEMO_PASSWORD=verysecret
-  _out Creating cloud directory test user: $DEMO_EMAIL, $DEMO_PASSWORD
-  IBMCLOUD_BEARER_TOKEN=$(ibmcloud iam oauth-tokens | awk '/IAM/{ print $3" "$4 }')
-  curl -s -X POST \
-    --header 'Content-Type: application/json' \
-    --header 'Accept: application/json' \
-    --header "Authorization: $IBMCLOUD_BEARER_TOKEN" \
-    -d '{"emails": [
-            {"value": "'$DEMO_EMAIL'","primary": true}
-          ],
-         "userName": "'$DEMO_EMAIL'",
-         "password": "'$DEMO_PASSWORD'"
-        }' \
-    "${APPID_MGMTURL}/cloud_directory/Users"
-}
+  _out Creating Cloudant credentials
+  ibmcloud resource service-key-create cloudant-serverless-credentials Manager --instance-name cloudant-serverless
+  ibmcloud resource service-key cloudant-serverless-credentials
+  
+  CLOUDANT_USERNAME=$(ibmcloud resource service-key cloudant-serverless-credentials | awk '/username/{ print $2 }')
+  _out CLOUDANT_USERNAME: $CLOUDANT_USERNAME
+  printf "\nCLOUDANT_USERNAME=$CLOUDANT_USERNAME" >> $ENV_FILE
+  printf "\nCLOUDANT_USERNAME=$CLOUDANT_USERNAME" >> $CLOUDANT_ENV_FILE
+  CLOUDANT_PASSWORD=$(ibmcloud resource service-key cloudant-serverless-credentials | awk '/password/{ print $2 }')
+  _out CLOUDANT_PASSWORD: $CLOUDANT_PASSWORD
+  printf "\nCLOUDANT_PASSWORD=$CLOUDANT_PASSWORD" >> $ENV_FILE
+  printf "\nCLOUDANT_PASSWORD=$CLOUDANT_PASSWORD" >> $CLOUDANT_ENV_FILE
 
+  _out Downloading npm modules
+  npm --prefix ${root_folder}/cloudant install ${root_folder}/cloudant
+
+  _out Creating database and documents
+  npm --prefix ${root_folder}/cloudant start ${root_folder}/cloudant
+}
 
 # Main script starts here
 check_tools
@@ -125,5 +110,4 @@ export TF_VAR_cloudant_plan=${IBMCLOUD_CLOUDANT_PLAN:-"Lite"}
 
 _out Full install output in $LOG_FILE
 ibmcloud_login
-setup $@
-esac
+setup

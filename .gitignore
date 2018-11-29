@@ -2,4 +2,8 @@ documentation/serverless.pptx
 demo.md
 serverless-web-application.json
 local.env
-scripts/deploy.log
+scripts/deploy-app-id.log
+scripts/deploy-cloudant.log
+scripts/cloudant/node_modules
+scripts/cloudant/package-lock.json
+scripts/cloudant/.env
