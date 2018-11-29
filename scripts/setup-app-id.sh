@@ -70,21 +70,24 @@ function ibmcloud_login() {
 function setup() {
   _out Creating App ID service instance
   ibmcloud resource service-instance-create app-id-serverless appid lite $BLUEMIX_REGION
-  ibmcloud resource service-alias-create app-id-serverless --instance-name appid-webapp
+  ibmcloud resource service-alias-create app-id-serverless --instance-name app-id-serverless
 
   _out Creating App ID credentials
   ibmcloud resource service-key-create app-id-serverless-credentials Reader --instance-name app-id-serverless
   ibmcloud resource service-key app-id-serverless-credentials
   APPID_MGMTURL=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/managementUrl/{ print $2 }')
   APPID_TENANTID=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/tenantId/{ print $2 }')
-  _out APPID_TENANTID: $APPID_TENANTID - copy this in local.env
+  _out APPID_TENANTID: $APPID_TENANTID
+  printf "\nAPPID_TENANTID=$APPID_TENANTID" >> $ENV_FILE
   APPID_OAUTHURL=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/oauthServerUrl/{ print $2 }')
-  _out APPID_OAUTHURL: $APPID_OAUTHURL - copy this in local.env
+  _out APPID_OAUTHURL: $APPID_OAUTHURL
+  printf "\nAPPID_OAUTHURL=$APPID_OAUTHURL" >> $ENV_FILE
   APPID_CLIENTID=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/clientId/{ print $2 }')
-  _out APPID_CLIENTID: $APPID_CLIENTID - copy this in local.env
+  _out APPID_CLIENTID: $APPID_CLIENTID
+  printf "\nAPPID_CLIENTID=$APPID_CLIENTID" >> $ENV_FILE
   APPID_SECRET=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/secret/{ print $2 }')
-  _out APPID_SECRET: $APPID_SECRET - copy this in local.env
-  
+  _out APPID_SECRET: $APPID_SECRET
+  printf "\nAPPID_SECRET=$APPID_SECRET" >> $ENV_FILE
   
   DEMO_EMAIL=user@demo.email
   DEMO_PASSWORD=verysecret

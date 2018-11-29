@@ -24,7 +24,7 @@ Find out more about the main components:
 * [Prerequisites](#prerequisites)
 * [Local Environment Setup](#local-environment-setup)
 * [App ID Setup](#app-id-setup)
-* Cloudant Setup (to be done)
+* [Cloudant Setup](#cloudant-setup)
 * Cloud Functions Setup (to be done)
 * Web Application Setup (to be done)
 * Cloud Object Storage Setup (to be done)
@@ -44,6 +44,8 @@ Make sure you have the following tools installed:
 * [curl](https://curl.haxx.se/download.html)
 
 ## Local Environment Setup
+
+Invoke the following commands:
 
 ```
 $ git clone https://github.com/nheidloff/serverless-web-application-ibm-cloud.git
@@ -91,5 +93,8 @@ $ ibmcloud resource service-alias-create app-id-serverless --instance-name appid
 $ ibmcloud cf services
 ```
 
-**to be continued**
+## Cloudant Setup
+
+
+
 
