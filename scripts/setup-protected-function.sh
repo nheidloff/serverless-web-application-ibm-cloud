@@ -86,7 +86,7 @@ function setup() {
   CONFIG=`cat $CONFIG_FILE`
 
   _out Deploying function: serverless-web-app-sample/function-protected
-  ibmcloud wsk action create serverless-web-app-sample/function-protected ${root_folder}/../function-protected/function-protected.js --kind nodejs:8 -p config "${CONFIG}"
+  ibmcloud wsk action create serverless-web-app-sample/function-protected ${root_folder}/../function-protected/function-protected.js --kind nodejs:8 -a web-export true -p config "${CONFIG}"
 
   _out Downloading npm modules
   npm --prefix ${root_folder}/text-replace install ${root_folder}/text-replace
