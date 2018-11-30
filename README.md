@@ -143,7 +143,7 @@ $ scripts/setup-login-function.sh
 To run the web application locally run these commands:
 
 ```
-$ scripts/setup-login-function.sh
+$ scripts/setup-local-webapp.sh
 $ ng serve
 ```
 
