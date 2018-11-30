@@ -28,7 +28,6 @@ Find out more about the main components:
 * [Cloud Functions Setup for Login](#cloud-functions-setup-for-login)
 * Cloud Functions Setup for protected API (to be done)
 * [Setup of local Web Application](#setup-of-local-web-application)
-* Web Application Setup (to be done)
 * Cloud Object Storage Setup (to be done)
 * Custom Domain Setup (to be done)
 

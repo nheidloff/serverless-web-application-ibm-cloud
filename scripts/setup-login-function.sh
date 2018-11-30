@@ -85,7 +85,7 @@ function setup() {
   printf $APPID_OAUTHURL >> $CONFIG_FILE
   printf "\",\n" >> $CONFIG_FILE
   printf "\"webapp_redirect\": \"" >> $CONFIG_FILE
-  printf "http://heidloff.net" >> $CONFIG_FILE
+  printf "http://localhost:4200" >> $CONFIG_FILE
   printf "\"\n" >> $CONFIG_FILE
   printf "}" >> $CONFIG_FILE
 
@@ -133,8 +133,8 @@ function setup() {
   printf $API_LOGIN >> $CONFIG_FILE
   printf "\"\n" >> $CONFIG_FILE
   printf "}" >> $CONFIG_FILE
-
   CONFIG=`cat $CONFIG_FILE`
+  ibmcloud wsk action update serverless-web-app-generic/login ${root_folder}/../function-login/login.js --kind nodejs:8 -p config "${CONFIG}"
 
   _out Creating redirect URL in App ID: $API_LOGIN
   IBMCLOUD_BEARER_TOKEN=$(ibmcloud iam oauth-tokens | awk '/IAM/{ print $3" "$4 }')
