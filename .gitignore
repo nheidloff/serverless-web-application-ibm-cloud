@@ -6,6 +6,7 @@ scripts/deploy-app-id.log
 scripts/deploy-cloudant.log
 scripts/deploy-login-functions.log
 scripts/deploy-protected-functions.log
+scripts/deploy-local-webapp.log
 scripts/cloudant/node_modules
 scripts/text-replace/node_modules
 scripts/cloudant/package-lock.json
@@ -16,6 +17,6 @@ scripts/cloudant/.env
 function-login/config.json
 function-login/swagger-login.json
 function-login/swagger-protected.json
-
-
-angular
+angular/node_modules
+.vscode
+angular/src/assets/config.json

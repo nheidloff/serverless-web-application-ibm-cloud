@@ -22,14 +22,13 @@ function main(params) {
 
 	return new Promise((resolve, reject) => {
 		const code = params.code;
-		console.log('code')
-		console.log(code)
 
 		let form = {
 			client_id: params.config.client_id,
 			client_secret: params.config.client_secret,
 			code: code,
-			grant_type: 'authorization_code'
+			grant_type: 'authorization_code',
+			redirect_uri: params.config.redirect_uri
 		};
 
 		let auth = new Buffer(form.client_id + ':' + form.client_secret).toString('base64');

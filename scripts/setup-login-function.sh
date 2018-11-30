@@ -113,6 +113,29 @@ function setup() {
   _out API_LOGIN: $API_LOGIN
   printf "\nAPI_LOGIN=$API_LOGIN" >> $ENV_FILE
 
+  _out Updating function: serverless-web-app-generic/login
+  rm $CONFIG_FILE
+  touch $CONFIG_FILE
+  printf "{\n" >> $CONFIG_FILE
+  printf "\"client_id\": \"" >> $CONFIG_FILE
+  printf $APPID_CLIENTID >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "\"client_secret\": \"" >> $CONFIG_FILE
+  printf $APPID_SECRET >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "\"oauth_url\": \"" >> $CONFIG_FILE
+  printf $APPID_OAUTHURL >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "\"webapp_redirect\": \"" >> $CONFIG_FILE
+  printf "http://localhost:4200" >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "\"redirect_uri\": \"" >> $CONFIG_FILE
+  printf $API_LOGIN >> $CONFIG_FILE
+  printf "\"\n" >> $CONFIG_FILE
+  printf "}" >> $CONFIG_FILE
+
+  CONFIG=`cat $CONFIG_FILE`
+
   _out Creating redirect URL in App ID: $API_LOGIN
   IBMCLOUD_BEARER_TOKEN=$(ibmcloud iam oauth-tokens | awk '/IAM/{ print $3" "$4 }')
   curl -s -X PUT \
@@ -124,7 +147,6 @@ function setup() {
           ]
         }' \
     "${APPID_MGMTURL}/config/redirect_uris"
-
 }
 
 # Main script starts here
