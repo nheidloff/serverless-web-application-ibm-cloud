@@ -27,6 +27,7 @@ Find out more about the main components:
 * [Cloudant Setup](#cloudant-setup)
 * [Cloud Functions Setup for Login](#cloud-functions-setup-for-login)
 * Cloud Functions Setup for protected API (to be done)
+* [Setup of local Web Application](#setup-of-local-web-application)
 * Web Application Setup (to be done)
 * Cloud Object Storage Setup (to be done)
 * Custom Domain Setup (to be done)
@@ -136,3 +137,15 @@ Run the following command to create these artifacts:
 ```
 $ scripts/setup-login-function.sh
 ```
+
+## Setup of local Web Application
+
+To run the web application locally run these commands:
+
+```
+$ scripts/setup-login-function.sh
+$ ng serve
+```
+
+Open http://localhost:4200 in your browser.
+
