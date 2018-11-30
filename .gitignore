@@ -22,5 +22,3 @@ angular/node_modules
 .vscode
 angular/src/assets/config.json
 angular/dist
-
-scripts/setup-object-storage.sh

@@ -28,7 +28,7 @@ Find out more about the main components:
 * [Cloud Functions Setup for Login](#cloud-functions-setup-for-login)
 * [Cloud Functions Setup for protected API](#cloud-functions-setup-for-protected-api)
 * [Setup of local Web Application](#setup-of-local-web-application)
-* Cloud Object Storage Setup (to be done)
+* [Cloud Object Storage Setup](#cloud-object-storage-setup)
 * Custom Domain Setup (to be done)
 
 ## Prerequisites
@@ -159,3 +159,12 @@ $ ng serve
 
 Open http://localhost:4200 in your browser.
 
+## Cloud Object Storage Setup
+
+To set up Object Storage, run this command:
+
+```
+$ scripts/setup-object-storage.sh
+```
+
+To try the web application, open the URL that you get in the terminal.
