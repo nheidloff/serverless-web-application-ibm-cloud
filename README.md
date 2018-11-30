@@ -148,7 +148,7 @@ Run the following command to create these artifacts:
 $ scripts/setup-protected-function.sh
 ```
 
-Open the OpenWhisk API web page and chose 'app-id-serverless' as App ID.
+Open the OpenWhisk API web page and choose 'app-id-serverless' as App ID.
 
 ## Setup of local Web Application
 

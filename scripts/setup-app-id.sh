@@ -70,6 +70,7 @@ function ibmcloud_login() {
 function setup() {
   _out Creating App ID service instance
   ibmcloud resource service-instance-create app-id-serverless appid lite $BLUEMIX_REGION
+  ibmcloud resource service-alias-delete app-id-serverless -f
   ibmcloud resource service-alias-create app-id-serverless --instance-name app-id-serverless
 
   _out Creating App ID credentials
