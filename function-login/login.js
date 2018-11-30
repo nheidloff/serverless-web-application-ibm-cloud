@@ -22,6 +22,8 @@ function main(params) {
 
 	return new Promise((resolve, reject) => {
 		const code = params.code;
+		console.log('code')
+		console.log(code)
 
 		let form = {
 			client_id: params.config.client_id,

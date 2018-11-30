@@ -25,7 +25,8 @@ Find out more about the main components:
 * [Local Environment Setup](#local-environment-setup)
 * [App ID Setup](#app-id-setup)
 * [Cloudant Setup](#cloudant-setup)
-* Cloud Functions Setup (to be done)
+* [Cloud Functions Setup for Login](#cloud-functions-setup-for-login)
+* Cloud Functions Setup for protected API (to be done)
 * Web Application Setup (to be done)
 * Cloud Object Storage Setup (to be done)
 * Custom Domain Setup (to be done)
@@ -70,10 +71,10 @@ In [local.env](local.env) define 'IBMCLOUD_API_KEY', 'IBMCLOUD_ORG', 'IBMCLOUD_S
 
 Run the following command to create these artifacts:
 
-* App ID service instance
-* App ID Cloud Foundry alias
+* App ID service instance 'app-id-serverless'
+* App ID Cloud Foundry alias 'app-id-serverless'
 * App ID credentials
-* App ID test user (user@demo.email, verysecret)
+* App ID test user 'user@demo.email, verysecret'
 
 ```
 $ scripts/setup-app-id.sh
@@ -102,8 +103,8 @@ $ ibmcloud cf services
 
 Run the following command to create these artifacts:
 
-* Cloudant service instance
-* Cloudant database
+* Cloudant service instance 'cloudant-serverless'
+* Cloudant database 'serverless'
 * Cloudant documents and an index
 
 ```
@@ -119,5 +120,19 @@ In this case copy 'CLOUDANT_USERNAME' and 'CLOUDANT_PASSWORD' from your service 
 Additionally run this command to create the database and documents:
 
 ```
-$ scripts/setup-cloudant.sh
+$ scripts/create-cloudant-db.sh
+```
+
+## Cloud Functions Setup for Login
+
+Run the following command to create these artifacts:
+
+* Cloud Functions sequence 'serverless-web-app-generic/login-and-redirect'
+* Cloud Functions function 'serverless-web-app-generic/login'
+* Cloud Functions function 'serverless-web-app-generic/redirect'
+* Cloud Function API 'login'
+* Redirect URL in App ID
+
+```
+$ scripts/setup-login-function.sh
 ```

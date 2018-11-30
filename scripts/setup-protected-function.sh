@@ -13,15 +13,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# Authors: Andrea Frittoli, Niklas Heidloff
 ##############################################################################
 
 root_folder=$(cd $(dirname $0); pwd)
 
 # SETUP logging (redirect stdout and stderr to a log file)
-readonly LOG_FILE="${root_folder}/deploy-app-id.log"
+readonly LOG_FILE="${root_folder}/deploy-protected-functions.log"
 readonly ENV_FILE="${root_folder}/../local.env"
+
 touch $LOG_FILE
 exec 3>&1 # Save stdout
 exec 4>&2 # Save stderr
@@ -68,46 +67,41 @@ function ibmcloud_login() {
 }
 
 function setup() {
-  _out Creating App ID service instance
-  ibmcloud resource service-instance-create app-id-serverless appid lite $BLUEMIX_REGION
-  ibmcloud resource service-alias-create app-id-serverless --instance-name app-id-serverless
+  _out Preparing deployment of the protected function
+  ibmcloud wsk package create serverless-web-app-sample
 
-  _out Creating App ID credentials
-  ibmcloud resource service-key-create app-id-serverless-credentials Reader --instance-name app-id-serverless
-  ibmcloud resource service-key app-id-serverless-credentials
-  APPID_MGMTURL=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/managementUrl/{ print $2 }')
-  _out APPID_MGMTURL: $APPID_MGMTURL
-  printf "\nAPPID_MGMTURL=$APPID_MGMTURL" >> $ENV_FILE
-  APPID_TENANTID=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/tenantId/{ print $2 }')
-  _out APPID_TENANTID: $APPID_TENANTID
-  printf "\nAPPID_TENANTID=$APPID_TENANTID" >> $ENV_FILE
-  APPID_OAUTHURL=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/oauthServerUrl/{ print $2 }')
-  _out APPID_OAUTHURL: $APPID_OAUTHURL
-  printf "\nAPPID_OAUTHURL=$APPID_OAUTHURL" >> $ENV_FILE
-  APPID_CLIENTID=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/clientId/{ print $2 }')
-  _out APPID_CLIENTID: $APPID_CLIENTID
-  printf "\nAPPID_CLIENTID=$APPID_CLIENTID" >> $ENV_FILE
-  APPID_SECRET=$(ibmcloud resource service-key app-id-serverless-credentials | awk '/secret/{ print $2 }')
-  _out APPID_SECRET: $APPID_SECRET
-  printf "\nAPPID_SECRET=$APPID_SECRET" >> $ENV_FILE
-  
-  DEMO_EMAIL=user@demo.email
-  DEMO_PASSWORD=verysecret
-  _out Creating cloud directory test user: $DEMO_EMAIL, $DEMO_PASSWORD
-  IBMCLOUD_BEARER_TOKEN=$(ibmcloud iam oauth-tokens | awk '/IAM/{ print $3" "$4 }')
-  curl -s -X POST \
-    --header 'Content-Type: application/json' \
-    --header 'Accept: application/json' \
-    --header "Authorization: $IBMCLOUD_BEARER_TOKEN" \
-    -d '{"emails": [
-            {"value": "'$DEMO_EMAIL'","primary": true}
-          ],
-         "userName": "'$DEMO_EMAIL'",
-         "password": "'$DEMO_PASSWORD'"
-        }' \
-    "${APPID_MGMTURL}/cloud_directory/Users"
+  readonly CONFIG_FILE="${root_folder}/../function-protected/config.json"
+  rm $CONFIG_FILE
+  touch $CONFIG_FILE
+
+  printf "{\n" >> $CONFIG_FILE
+  printf "\"cloudant_username\": \"" >> $CONFIG_FILE
+  printf $CLOUDANT_USERNAME >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "\"cloudant_password\": \"" >> $CONFIG_FILE
+  printf $CLOUDANT_PASSWORD >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "}" >> $CONFIG_FILE
+
+  CONFIG=`cat $CONFIG_FILE`
+
+  _out Deploying function: serverless-web-app-sample/function-protected.js
+  ibmcloud wsk action create serverless-web-app-sample/function-protected.js ${root_folder}/../function-protected/function-protected.js --kind nodejs:8 -p config "${CONFIG}"
+
+  _out Downloading npm modules
+  npm --prefix ${root_folder}/text-replace install ${root_folder}/text-replace
+
+  _out Creating swagger-protected.json
+  cp ${root_folder}/../function-protected/swagger-template.json ${root_folder}/../function-protected/swagger-protected.json
+  readonly NAMESPACE="${IBMCLOUD_ORG}_${IBMCLOUD_SPACE}"
+  npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../function-protected/swagger-protected.json xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx $NAMESPACE
+  npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../function-protected/swagger-protected.json xxx-your-appid-tenantid-for-example:44d4f670-1e00-4ccb-98ad-3f03ba7e15a5-xxx $APPID_TENANTID
+
+  _out Deploying API: function-protected
+  API_PROTECTED=$(ibmcloud wsk api create --config-file ${root_folder}/../function-protected/swagger-protected.json | awk '/https:/{ print $1 }')
+  _out API_PROTECTED: $API_PROTECTED
+  printf "\nAPI_PROTECTED=$API_PROTECTED" >> $ENV_FILE
 }
-
 
 # Main script starts here
 check_tools
@@ -118,14 +112,8 @@ if [ ! -f $ENV_FILE ]; then
   exit 1
 fi
 source $ENV_FILE
-export TF_VAR_ibm_bx_api_key=$IBMCLOUD_API_KEY
-export TF_VAR_ibm_cf_org=$IBMCLOUD_ORG
-export TF_VAR_ibm_cf_space=$IBMCLOUD_SPACE
-export IBMCLOUD_API_KEY BLUEMIX_REGION
-export TF_VAR_appid_plan=${IBMCLOUD_APPID_PLAN:-"lite"}
-export TF_VAR_cloudant_plan=${IBMCLOUD_CLOUDANT_PLAN:-"Lite"}
+export IBMCLOUD_ORG IBMCLOUD_API_KEY BLUEMIX_REGION APPID_TENANTID APPID_OAUTHURL APPID_CLIENTID APPID_SECRET CLOUDANT_USERNAME CLOUDANT_PASSWORD IBMCLOUD_SPACE
 
 _out Full install output in $LOG_FILE
 ibmcloud_login
-setup $@
-esac
+setup
