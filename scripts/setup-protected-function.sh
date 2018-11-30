@@ -18,7 +18,7 @@
 root_folder=$(cd $(dirname $0); pwd)
 
 # SETUP logging (redirect stdout and stderr to a log file)
-readonly LOG_FILE="${root_folder}/deploy-protected-functions.log"
+readonly LOG_FILE="${root_folder}/deploy-protected-function.log"
 readonly ENV_FILE="${root_folder}/../local.env"
 
 touch $LOG_FILE
@@ -80,13 +80,13 @@ function setup() {
   printf "\",\n" >> $CONFIG_FILE
   printf "\"cloudant_password\": \"" >> $CONFIG_FILE
   printf $CLOUDANT_PASSWORD >> $CONFIG_FILE
-  printf "\",\n" >> $CONFIG_FILE
+  printf "\"\n" >> $CONFIG_FILE
   printf "}" >> $CONFIG_FILE
 
   CONFIG=`cat $CONFIG_FILE`
 
-  _out Deploying function: serverless-web-app-sample/function-protected.js
-  ibmcloud wsk action create serverless-web-app-sample/function-protected.js ${root_folder}/../function-protected/function-protected.js --kind nodejs:8 -p config "${CONFIG}"
+  _out Deploying function: serverless-web-app-sample/function-protected
+  ibmcloud wsk action create serverless-web-app-sample/function-protected ${root_folder}/../function-protected/function-protected.js --kind nodejs:8 -p config "${CONFIG}"
 
   _out Downloading npm modules
   npm --prefix ${root_folder}/text-replace install ${root_folder}/text-replace
@@ -115,5 +115,6 @@ source $ENV_FILE
 export IBMCLOUD_ORG IBMCLOUD_API_KEY BLUEMIX_REGION APPID_TENANTID APPID_OAUTHURL APPID_CLIENTID APPID_SECRET CLOUDANT_USERNAME CLOUDANT_PASSWORD IBMCLOUD_SPACE
 
 _out Full install output in $LOG_FILE
-ibmcloud_login
-setup
+_out $APPID_TENANTID
+#ibmcloud_login
+#setup

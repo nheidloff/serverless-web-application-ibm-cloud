@@ -4,9 +4,15 @@
 		"version": "1.0",
 		"title": "function-protected"
 	},
-	"schemes": ["https"],
-	"consumes": ["application/json"],
-	"produces": ["application/json"],
+	"schemes": [
+		"https"
+	],
+	"consumes": [
+		"application/json"
+	],
+	"produces": [
+		"application/json"
+	],
 	"paths": {
 		"/action": {
 			"get": {
@@ -14,7 +20,7 @@
 				"x-openwhisk": {
 					"namespace": "xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx",
 					"action": "function-protected",
-					"package": "default",
+					"package": "serverless-web-app-sample",
 					"url": "https://openwhisk.ng.bluemix.net/api/v1/web/xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx/default/protected-action.json"
 				},
 				"responses": {
@@ -27,21 +33,29 @@
 	},
 	"x-ibm-configuration": {
 		"assembly": {
-			"execute": [{
-				"operation-switch": {
-					"case": [{
-						"operations": ["getAction"],
-						"execute": [{
-							"invoke": {
-								"target-url": "https://openwhisk.ng.bluemix.net/api/v1/web/xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx/default/protected-action.json",
-								"verb": "keep"
+			"execute": [
+				{
+					"operation-switch": {
+						"case": [
+							{
+								"operations": [
+									"getAction"
+								],
+								"execute": [
+									{
+										"invoke": {
+											"target-url": "https://openwhisk.ng.bluemix.net/api/v1/web/xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx/default/protected-action.json",
+											"verb": "keep"
+										}
+									}
+								]
 							}
-						}]
-					}],
-					"otherwise": [],
-					"title": "whisk-invoke"
+						],
+						"otherwise": [],
+						"title": "whisk-invoke"
+					}
 				}
-			}]
+			]
 		},
 		"cors": {
 			"enabled": true
@@ -50,24 +64,25 @@
 	"basePath": "/path",
 	"securityDefinitions": {
 		"app-id": {
-		  "flow": "application",
-		  "tokenUrl": "",
-		  "type": "oauth2",
-		  "x-provider": {
-			"name": "app-id",
-			"params": {
-			  "tenantId": "xxx-your-appid-tenantid-for-example:44d4f670-1e00-4ccb-98ad-3f03ba7e15a5-xxx"
+			"flow": "application",
+			"tokenUrl": "",
+			"type": "oauth2",
+			"x-provider": {
+				"name": "app-id",
+				"params": {
+					"tenantId": "xxx-your-appid-tenantid-for-example:44d4f670-1e00-4ccb-98ad-3f03ba7e15a5-xxx"
+				}
+			},
+			"x-tokenintrospect": {
+				"url": null
 			}
-		  },
-		  "x-tokenintrospect": {
-			"url": null
-		  }
 		}
-	  },
-	  "security": [
+	},
+	"security": [
 		{
-		  "$$label": "client_id",
-		  "app-id": []
+			"$$label": "client_id",
+			"app-id": []
 		}
-	  ]
+	]
 }
+

@@ -18,7 +18,7 @@
 root_folder=$(cd $(dirname $0); pwd)
 
 # SETUP logging (redirect stdout and stderr to a log file)
-readonly LOG_FILE="${root_folder}/deploy-login-functions.log"
+readonly LOG_FILE="${root_folder}/deploy-login-function.log"
 readonly ENV_FILE="${root_folder}/../local.env"
 
 touch $LOG_FILE

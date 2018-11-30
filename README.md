@@ -26,7 +26,7 @@ Find out more about the main components:
 * [App ID Setup](#app-id-setup)
 * [Cloudant Setup](#cloudant-setup)
 * [Cloud Functions Setup for Login](#cloud-functions-setup-for-login)
-* Cloud Functions Setup for protected API (to be done)
+* [Cloud Functions Setup for protected API](#cloud-functions-setup-for-protected-api)
 * [Setup of local Web Application](#setup-of-local-web-application)
 * Cloud Object Storage Setup (to be done)
 * Custom Domain Setup (to be done)
@@ -137,9 +137,22 @@ Run the following command to create these artifacts:
 $ scripts/setup-login-function.sh
 ```
 
+## Cloud Functions Setup for protected API
+
+Run the following command to create these artifacts:
+
+* Cloud Functions function 'serverless-web-app-sample/function-protected'
+* Cloud Function API 'function-protected'
+
+```
+$ scripts/setup-protected-function.sh
+```
+
+Open the OpenWhisk API web page and chose 'app-id-serverless' as App ID.
+
 ## Setup of local Web Application
 
-To run the web application locally run these commands:
+To run the web application locally, run these commands:
 
 ```
 $ scripts/setup-local-webapp.sh
