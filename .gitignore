@@ -7,6 +7,7 @@ scripts/deploy-cloudant.log
 scripts/deploy-login-function.log
 scripts/deploy-protected-function.log
 scripts/deploy-local-webapp.log
+scripts/deploy-object-storage.log
 scripts/cloudant/node_modules
 scripts/text-replace/node_modules
 scripts/cloudant/package-lock.json
@@ -20,3 +21,6 @@ function-protected/swagger-protected.json
 angular/node_modules
 .vscode
 angular/src/assets/config.json
+angular/dist
+
+scripts/setup-object-storage.sh
