@@ -81,7 +81,7 @@ function setup() {
   _out COS_ID: $COS_ID
   printf "\nCOS_ID=$COS_ID" >> $ENV_FILE
 
-  BUCKET_NAME="serverless-web-application-${APPID_TENANTID}"
+  BUCKET_NAME="serverless-web-${APPID_TENANTID}"
   _out BUCKET_NAME: $BUCKET_NAME
   printf "\nBUCKET_NAME=$BUCKET_NAME" >> $ENV_FILE
   curl -X "PUT" "https://s3.us-south.objectstorage.softlayer.net/${BUCKET_NAME}" \
@@ -93,7 +93,6 @@ function setup() {
   ng build
 
   npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../angular/dist/index.html src=\" src=\"https://s3.us-south.objectstorage.softlayer.net/${BUCKET_NAME}/
-  npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../angular/dist/index.html ´<base href="/">` ´<script>document.write('<base href="' + document.location + '" />');</script>`
 
   _out Uploading static web application resources
   curl -X "PUT" "https://s3.us-south.objectstorage.softlayer.net/${BUCKET_NAME}/index.html" \
