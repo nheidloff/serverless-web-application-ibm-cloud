@@ -72,7 +72,7 @@ function setup() {
   cp ${root_folder}/../function-html/function-html.template.js ${root_folder}/../function-html/function-html.js
   npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../function-html/function-html.js xxx-replace-me-xxx $COS_URL_HOME_BASE
 
-  ibmcloud wsk action create serverless-web-app-sample/html ${root_folder}/../function-html/function-html.js --kind nodejs:8 -a web-export true
+  #ibmcloud wsk action create serverless-web-app-sample/html ${root_folder}/../function-html/function-html.js --kind nodejs:8 -a web-export true
 
   _out Deploying API: function-html
   readonly NAMESPACE="${IBMCLOUD_ORG}_${IBMCLOUD_SPACE}"
@@ -98,5 +98,5 @@ source $ENV_FILE
 export IBMCLOUD_API_KEY BLUEMIX_REGION APPID_TENANTID APPID_OAUTHURL APPID_CLIENTID APPID_SECRET CLOUDANT_USERNAME CLOUDANT_PASSWORD COS_URL_HOME COS_URL_HOME_BASE
 
 _out Full install output in $LOG_FILE
-ibmcloud_login
+#ibmcloud_login
 setup

@@ -18,7 +18,7 @@
 					"namespace": "xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx",
 					"action": "html",
 					"package": "serverless-web-app-sample",
-					"url": "https://openwhisk.ng.bluemix.net/api/v1/web/xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx/serverless-web-app-sample/function-html.html"
+					"url": "https://openwhisk.ng.bluemix.net/api/v1/web/xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx/serverless-web-app-sample/html"
 				},
 				"responses": {
 					"200": {
@@ -41,7 +41,7 @@
 								"execute": [
 									{
 										"invoke": {
-											"target-url": "https://openwhisk.ng.bluemix.net/api/v1/web/xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx/serverless-web-app-sample/function-html.html",
+											"target-url": "https://openwhisk.ng.bluemix.net/api/v1/web/xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx/serverless-web-app-sample/html",
 											"verb": "keep"
 										}
 									}
