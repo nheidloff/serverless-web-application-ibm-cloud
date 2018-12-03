@@ -1,13 +1,12 @@
 # Serverless Web Applications on the IBM Cloud
 
-This repo explains how to build serverless web applications in the IBM Cloud. Static web resources are stored in IBM Object Storage, business logic is implemented via IBM Cloud Functions, authentication is handled via IBM App ID and data is stored in the managed NoSQL database IBM Cloudant.
+This repo explains how to build and run serverless web applications on the IBM Cloud. Business logic is implemented with IBM Cloud Functions, static web resources are stored in IBM Object Storage, authentication is handled via IBM App ID and data is stored in the managed NoSQL database IBM Cloudant.
 
-The project contains two parts:
+The project contains a sample web application built with Angular which requires user authentication to access data in Cloudant. Watch the 10 seconds [video](documentation/serverless-web-app.mp4) for a short demo.
 
-1) Sample web application built with Angular which requires user authentication to access data in Cloudant
-2) Instructions how to build your own serverless web applications with potentially other JavaScript frameworks and other databases
+While the Angular application and the protected API are samples, the other components in this repo are generic and can be reused for other web applications, for example the login functionality and the setup of App ID, Cloudant and Object Storage.
 
-This diagram shows the architecture with the main components:
+This diagram describes the architecture with the main components:
 
 ![alt text](documentation/serverless-web-app.png "architecture diagram")
 
@@ -29,7 +28,7 @@ Find out more about the main components:
 * [Cloud Functions Setup for protected API](#cloud-functions-setup-for-protected-api)
 * [Setup of local Web Application](#setup-of-local-web-application)
 * [Cloud Object Storage Setup](#cloud-object-storage-setup)
-* Custom Domain Setup (to be done)
+* Optional: [Custom Domain Setup](#custom-domain-setup)
 
 ## Prerequisites
 
@@ -43,7 +42,7 @@ Make sure you have the following tools installed:
 * [ibmcloud CLI](https://console.bluemix.net/docs/cli/index.html)
 * [node](https://nodejs.org/en/download/)
 * [curl](https://curl.haxx.se/download.html)
-* [ng](https://github.com/angular/angular-cli/wiki)
+* [ng](https://github.com/angular/angular-cli/wiki) (only needed for the Angular sample application)
 
 ## Local Environment Setup
 
@@ -57,8 +56,8 @@ $ ibmcloud target --cf
 $ ibmcloud iam api-key-create serverless-web-application \
   -d "serverless-web-application" \
   --file serverless-web-application.json
-$ cp template.local.env local.env
 $ cat serverless-web-application.json
+$ cp template.local.env local.env
 ```
 
 In [local.env](local.env) define 'IBMCLOUD_API_KEY', 'IBMCLOUD_ORG', 'IBMCLOUD_SPACE' and 'BLUEMIX_REGION' to match the apikey in [serverless-web-application.json](serverless-web-application.json) and the org, space and region name that you're using (see the outputs in your terminal when following the steps above).
@@ -86,15 +85,6 @@ The IBM Cloud lite plan only allows one App ID instance in your organization. If
 
 In this case copy 'APPID_TENANTID', 'APPID_OAUTHURL', 'APPID_CLIENTID' and 'APPID_SECRET' from your service credentials and paste them in [local.env](local.env).
 
-Additionally create a CF alias so that App ID can be used by Cloud Functions API Management.
-
-```
-$ ibmcloud cf services
-$ ibmcloud resource service-instances
-$ ibmcloud resource service-alias-create app-id-serverless --instance-name app-id-serverless
-$ ibmcloud cf services
-```
-
 ## Cloudant Setup
 
 [IBM Cloudant](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db) is used to store data used by the web application.
@@ -117,7 +107,7 @@ The IBM Cloud lite plan only allows one Cloudant instance in your organization. 
 
 In this case copy 'CLOUDANT_USERNAME' and 'CLOUDANT_PASSWORD' from your service credentials and paste them in [local.env](local.env).
 
-Additionally run this command to create the database and documents:
+Additionally run this command to create the sample database and documents:
 
 ```
 $ scripts/create-cloudant-db.sh
@@ -150,7 +140,7 @@ $ scripts/setup-protected-function.sh
 
 ## Setup of local Web Application
 
-To run the web application locally, run these commands:
+To run the Angular web application locally, run these commands:
 
 ```
 $ scripts/setup-local-webapp.sh
@@ -161,10 +151,37 @@ Open http://localhost:4200 in your browser.
 
 ## Cloud Object Storage Setup
 
-To set up Object Storage, run this command:
+[IBM Cloud Object Storage](https://console.bluemix.net/catalog/services/cloud-object-storage) is used to store the static resources of the web application.
+
+**Create new Object Storage service instance:**
+
+Run the following command to create these artifacts:
+
+* Object Storage instance 'object-storage-serverless'
+* Bucket 'serverless-web-[your-app-id-tenant-id]'
+* Built Angular application
+* Angular files stored in Object Storage
 
 ```
 $ scripts/setup-object-storage.sh
 ```
 
 To try the web application, open the URL that you get in the terminal.
+
+**Reuse an existing Object Storage service instance:**
+
+The IBM Cloud lite plan only allows one Object Storage instance in your organization. If you have an Object Storage instance, you can use it rather than creating a new one. 
+
+Define your service instance name in [scripts/upload-files-to-object-storage.sh](scripts/upload-files-to-object-storage.sh) (line 74) and run this command to create the bucket and to upload the files:
+
+```
+$ scripts/upload-files-to-object-storage.sh
+```
+
+## Custom Domain Setup
+
+When following the steps above, the sample application can be invoked via URLs like https://s3.us-south.objectstorage.softlayer.net/serverless-web-65819d17-0d02-4219-af3a-9468870673cc/index.html. If you want to use your own domain, you need to do some additional setup.
+
+Since Object Storage doesn't support custom domains, an OpenWhisk function is used to host the 'index.html' file. All other resources are stored in Object Storage.
+
+**to be done**

@@ -67,13 +67,20 @@ function ibmcloud_login() {
 }
 
 function setup() {
-  _out Deploying html function
+  _out Deploying function 'serverless-web-app-angular/html'
 
   # tbd: replace base URL
 
-  ibmcloud wsk action create serverless-web-app-angular/html ${root_folder}/../function-html/function-html.js --kind nodejs:8 --web true
+  ibmcloud wsk action create serverless-web-app-angular/html ${root_folder}/../function-html/function-html.js --kind nodejs:8 -a web-export true
 
-  # tbd: deploy API
+  #_out Deploying API: function-protected
+  #API_HOME=$(ibmcloud wsk api create --config-file ${root_folder}/../function-protected/swagger-protected.json | awk '/https:/{ print $1 }')
+  #_out API_HOME: $API_HOME
+  #printf "\nAPI_HOME=$API_HOME" >> $ENV_FILE
+
+  #_out Done! Open your app: ${API_HOME}
+
+  #https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/a7ec84e3bcd8d3f5ac899f5ee4d32edece60ef032d9e3bb21c75f4854082769b/login/login
 }
 
 # Main script starts here

@@ -22,3 +22,4 @@ angular/node_modules
 .vscode
 angular/src/assets/config.json
 angular/dist
+function-html/function-html.js
