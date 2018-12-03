@@ -18,7 +18,7 @@
 root_folder=$(cd $(dirname $0); pwd)
 
 # SETUP logging (redirect stdout and stderr to a log file)
-readonly LOG_FILE="${root_folder}/deploy-cloudant.log"
+readonly LOG_FILE="${root_folder}/deploy-domain.log"
 readonly ENV_FILE="${root_folder}/../local.env"
 
 touch $LOG_FILE
@@ -69,18 +69,21 @@ function ibmcloud_login() {
 function setup() {
   _out Deploying function 'serverless-web-app-angular/html'
 
-  # tbd: replace base URL
+  cp ${root_folder}/../function-html/function-html.template.js ${root_folder}/../function-html/function-html.js
+  npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../function-html/function-html.js xxx-replace-me-xxx $COS_URL_HOME_BASE
 
-  ibmcloud wsk action create serverless-web-app-angular/html ${root_folder}/../function-html/function-html.js --kind nodejs:8 -a web-export true
+  ibmcloud wsk action create serverless-web-app-sample/html ${root_folder}/../function-html/function-html.js --kind nodejs:8 -a web-export true
 
-  #_out Deploying API: function-protected
-  #API_HOME=$(ibmcloud wsk api create --config-file ${root_folder}/../function-protected/swagger-protected.json | awk '/https:/{ print $1 }')
-  #_out API_HOME: $API_HOME
-  #printf "\nAPI_HOME=$API_HOME" >> $ENV_FILE
+  _out Deploying API: function-html
+  readonly NAMESPACE="${IBMCLOUD_ORG}_${IBMCLOUD_SPACE}"
+  cp ${root_folder}/../function-html/swagger-template.json ${root_folder}/../function-html/swagger.json
+  npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../function-html/swagger.json xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx $NAMESPACE
+  API_HOME=$(ibmcloud wsk api create --config-file ${root_folder}/../function-html/swagger.json | awk '/https:/{ print $1 }')
+  _out API_HOME: $API_HOME
+  printf "\nAPI_HOME=$API_HOME" >> $ENV_FILE
 
-  #_out Done! Open your app: ${API_HOME}
-
-  #https://service.us.apiconnect.ibmcloud.com/gws/apigateway/api/a7ec84e3bcd8d3f5ac899f5ee4d32edece60ef032d9e3bb21c75f4854082769b/login/login
+  _out Done! Open your app: ${API_HOME}
+  _out Replace https://service.us.apiconnect.....54082769b/ with your custom domain
 }
 
 # Main script starts here
@@ -92,7 +95,7 @@ if [ ! -f $ENV_FILE ]; then
   exit 1
 fi
 source $ENV_FILE
-export IBMCLOUD_API_KEY BLUEMIX_REGION APPID_TENANTID APPID_OAUTHURL APPID_CLIENTID APPID_SECRET CLOUDANT_USERNAME CLOUDANT_PASSWORD
+export IBMCLOUD_API_KEY BLUEMIX_REGION APPID_TENANTID APPID_OAUTHURL APPID_CLIENTID APPID_SECRET CLOUDANT_USERNAME CLOUDANT_PASSWORD COS_URL_HOME COS_URL_HOME_BASE
 
 _out Full install output in $LOG_FILE
 ibmcloud_login

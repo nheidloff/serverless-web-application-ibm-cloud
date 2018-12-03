@@ -131,7 +131,11 @@ function setup() {
      -H "Content-Type: text/plain; charset=utf-8" \
      --upload-file "${root_folder}/../angular/dist/vendor.bundle.js"
 
-  _out Done! Open your app: https://s3.us-south.objectstorage.softlayer.net/${BUCKET_NAME}/index.html
+  COS_URL_HOME_BASE="https://s3.us-south.objectstorage.softlayer.net/${BUCKET_NAME}"
+  COS_URL_HOME="${COS_URL_HOME_BASE}/index.html"
+  printf "\nCOS_URL_HOME=$COS_URL_HOME" >> $ENV_FILE
+  printf "\nCOS_URL_HOME_BASE=$COS_URL_HOME_BASE" >> $ENV_FILE
+  _out Done! Open your app: ${COS_URL_HOME}
 }
 
 # Main script starts here

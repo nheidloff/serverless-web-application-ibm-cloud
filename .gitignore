@@ -4,6 +4,7 @@ serverless-web-application.json
 local.env
 scripts/deploy-app-id.log
 scripts/deploy-cloudant.log
+scripts/deploy-domain.log
 scripts/deploy-login-function.log
 scripts/deploy-protected-function.log
 scripts/deploy-local-webapp.log
@@ -23,3 +24,4 @@ angular/node_modules
 angular/src/assets/config.json
 angular/dist
 function-html/function-html.js
+function-html/swagger.json

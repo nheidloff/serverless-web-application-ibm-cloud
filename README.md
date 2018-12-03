@@ -184,4 +184,14 @@ When following the steps above, the sample application can be invoked via URLs l
 
 Since Object Storage doesn't support custom domains, an OpenWhisk function is used to host the 'index.html' file. All other resources are stored in Object Storage.
 
-**to be done**
+Follow the instruction in the [documentation](https://console.bluemix.net/docs/api-management/manage_apis.html#custom_domains) to set up custom domains for OpenWhisk functions.
+
+Check out the [screenshots](documentation/) in the documentation folder for more details. Make sure to set the TXT and CNAME records in your DNS settings correctly, see this [example](documentation/dns-settings.png).
+
+To deploy the OpenWhisk function and the API, invoke the following command:
+
+```
+$ scripts/setup-domain.sh
+```
+
+Open the web application via https://[yourdomain.com]/serverless/web.
