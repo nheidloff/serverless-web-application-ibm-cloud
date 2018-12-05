@@ -28,7 +28,8 @@ Find out more about the main components:
 * [Cloud Functions Setup for protected API](#cloud-functions-setup-for-protected-api)
 * [Setup of local Web Application](#setup-of-local-web-application)
 * [Cloud Object Storage Setup](#cloud-object-storage-setup)
-* Optional: [Custom Domain Setup](#custom-domain-setup)
+* [Cloud Functions Setup for HTML Function](#cloud-functions-setup-for-html-function)
+* [Custom Domain Setup](#custom-domain-setup) (optional)
 
 ## Prerequisites
 
@@ -178,17 +179,30 @@ Define your service instance name in [scripts/upload-files-to-object-storage.sh]
 $ scripts/upload-files-to-object-storage.sh
 ```
 
+## Cloud Functions Setup for HTML Function
+
+Since Object Storage doesn't allow to pass in parameters to requested files (e.g. https://.../index.html?param=value) another function is deployed to host the index.html file of the single page web application.
+
+To deploy the OpenWhisk function and the API, invoke the following command:
+
+```
+$ scripts/setup-html-function.sh
+```
+
+Open the web application with the URL that is printed in the output of the command.
+
+
 ## Custom Domain Setup
 
 When following the steps above, the sample application can be invoked via URLs like https://s3.us-south.objectstorage.softlayer.net/serverless-web-65819d17-0d02-4219-af3a-9468870673cc/index.html. If you want to use your own domain, you need to do some additional setup.
 
 Since Object Storage doesn't support custom domains, an OpenWhisk function is used to host the 'index.html' file. All other resources are stored in Object Storage.
 
-Follow the instruction in the [documentation](https://console.bluemix.net/docs/api-management/manage_apis.html#custom_domains) to set up custom domains for OpenWhisk functions.
+Follow the instruction in the [documentation](https://console.bluemix.net/docs/api-management/manage_apis.html#custom_domains) or in this [blog](http://jamesthom.as/blog/2018/12/03/custom-domains-with-ibm-cloud-functions/) to set up custom domains for OpenWhisk functions.
 
 Check out the [screenshots](documentation/) in the documentation folder for more details. Make sure to set the TXT and CNAME records in your DNS settings correctly, see this [example](documentation/dns-settings.png).
 
-To deploy the OpenWhisk function and the API, invoke the following command:
+To deploy update the redirect URL, invoke the following command:
 
 ```
 $ scripts/setup-domain.sh https://[yourdomain.com]

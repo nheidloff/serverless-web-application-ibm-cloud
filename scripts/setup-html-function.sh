@@ -16,12 +16,10 @@
 ##############################################################################
 
 root_folder=$(cd $(dirname $0); pwd)
-domain_input=$1
 
 # SETUP logging (redirect stdout and stderr to a log file)
-readonly LOG_FILE="${root_folder}/deploy-domain.log"
+readonly LOG_FILE="${root_folder}/deploy-html-function.log"
 readonly ENV_FILE="${root_folder}/../local.env"
-readonly DOMAIN="${domain_input}/serverless/web"
 
 touch $LOG_FILE
 exec 3>&1 # Save stdout
@@ -69,7 +67,21 @@ function ibmcloud_login() {
 }
 
 function setup() {
-  
+  _out Deploying function 'serverless-web-app-angular/html'
+
+  cp ${root_folder}/../function-html/function-html.template.js ${root_folder}/../function-html/function-html.js
+  npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../function-html/function-html.js xxx-replace-me-xxx $COS_URL_HOME_BASE
+
+  ibmcloud wsk action create serverless-web-app-sample/html ${root_folder}/../function-html/function-html.js --kind nodejs:8 -a web-export true
+
+  _out Deploying API: function-html
+  readonly NAMESPACE="${IBMCLOUD_ORG}_${IBMCLOUD_SPACE}"
+  cp ${root_folder}/../function-html/swagger-template.json ${root_folder}/../function-html/swagger.json
+  npm --prefix ${root_folder}/text-replace start ${root_folder}/text-replace ${root_folder}/../function-html/swagger.json xxx-your-openwhisk-namespace-for-example:niklas_heidloff%40de.ibm.com_demo-xxx $NAMESPACE
+  API_HOME=$(ibmcloud wsk api create --config-file ${root_folder}/../function-html/swagger.json | awk '/https:/{ print $1 }')
+  _out API_HOME: $API_HOME
+  printf "\nAPI_HOME=$API_HOME" >> $ENV_FILE
+
  _out Updating function: serverless-web-app-generic/redirect
   readonly CONFIG_FILE="${root_folder}/../function-login/config.json"
   rm $CONFIG_FILE
@@ -85,7 +97,7 @@ function setup() {
   printf $APPID_OAUTHURL >> $CONFIG_FILE
   printf "\",\n" >> $CONFIG_FILE
   printf "\"webapp_redirect\": \"" >> $CONFIG_FILE
-  printf $DOMAIN >> $CONFIG_FILE
+  printf $API_HOME >> $CONFIG_FILE
   printf "\",\n" >> $CONFIG_FILE
   printf "\"redirect_uri\": \"" >> $CONFIG_FILE
   printf $API_LOGIN >> $CONFIG_FILE
@@ -94,7 +106,7 @@ function setup() {
   CONFIG=`cat $CONFIG_FILE`
   ibmcloud wsk action update serverless-web-app-generic/redirect ${root_folder}/../function-login/redirect.js --kind nodejs:8 -a web-export true -p config "${CONFIG}"
 
-  _out Done! Open your app: ${DOMAIN}/serverless/web
+  _out Done! Open your app: ${API_HOME}
 }
 
 

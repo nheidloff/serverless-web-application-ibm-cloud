@@ -81,7 +81,7 @@ function setup() {
   _out COS_ID: $COS_ID
   printf "\nCOS_ID=$COS_ID" >> $ENV_FILE
 
-  BUCKET_NAME="serverless-web-${APPID_TENANTID}"
+  BUCKET_NAME="serverlessweb-${APPID_TENANTID}"
   _out BUCKET_NAME: $BUCKET_NAME
   printf "\nBUCKET_NAME=$BUCKET_NAME" >> $ENV_FILE
   curl -X "PUT" "https://s3.us-south.objectstorage.softlayer.net/${BUCKET_NAME}" \
@@ -136,31 +136,7 @@ function setup() {
   printf "\nCOS_URL_HOME=$COS_URL_HOME" >> $ENV_FILE
   printf "\nCOS_URL_HOME_BASE=$COS_URL_HOME_BASE" >> $ENV_FILE
 
-  _out Updating function: serverless-web-app-generic/redirect
-  readonly CONFIG_FILE="${root_folder}/../function-login/config.json"
-  rm $CONFIG_FILE
-  touch $CONFIG_FILE
-  printf "{\n" >> $CONFIG_FILE
-  printf "\"client_id\": \"" >> $CONFIG_FILE
-  printf $APPID_CLIENTID >> $CONFIG_FILE
-  printf "\",\n" >> $CONFIG_FILE
-  printf "\"client_secret\": \"" >> $CONFIG_FILE
-  printf $APPID_SECRET >> $CONFIG_FILE
-  printf "\",\n" >> $CONFIG_FILE
-  printf "\"oauth_url\": \"" >> $CONFIG_FILE
-  printf $APPID_OAUTHURL >> $CONFIG_FILE
-  printf "\",\n" >> $CONFIG_FILE
-  printf "\"webapp_redirect\": \"" >> $CONFIG_FILE
-  printf $COS_URL_HOME >> $CONFIG_FILE
-  printf "\",\n" >> $CONFIG_FILE
-  printf "\"redirect_uri\": \"" >> $CONFIG_FILE
-  printf $API_LOGIN >> $CONFIG_FILE
-  printf "\"\n" >> $CONFIG_FILE
-  printf "}" >> $CONFIG_FILE
-  CONFIG=`cat $CONFIG_FILE`
-  ibmcloud wsk action update serverless-web-app-generic/redirect ${root_folder}/../function-login/redirect.js --kind nodejs:8 -a web-export true -p config "${CONFIG}"
-
-  _out Done! Open your app: ${COS_URL_HOME}
+  _out You can now open index.html but the app does not work yet: ${COS_URL_HOME}
 }
 
 # Main script starts here

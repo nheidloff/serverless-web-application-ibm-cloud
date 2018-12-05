@@ -9,6 +9,7 @@ scripts/deploy-login-function.log
 scripts/deploy-protected-function.log
 scripts/deploy-local-webapp.log
 scripts/deploy-object-storage.log
+scripts/deploy-html-function.log
 scripts/update-redirect-url.log
 scripts/cloudant/node_modules
 scripts/text-replace/node_modules
