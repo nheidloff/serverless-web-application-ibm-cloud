@@ -16,10 +16,12 @@
 ##############################################################################
 
 root_folder=$(cd $(dirname $0); pwd)
+domain_input=$1
 
 # SETUP logging (redirect stdout and stderr to a log file)
 readonly LOG_FILE="${root_folder}/deploy-domain.log"
 readonly ENV_FILE="${root_folder}/../local.env"
+readonly DOMAIN="${domain_input}/serverless/web"
 
 touch $LOG_FILE
 exec 3>&1 # Save stdout
@@ -82,9 +84,34 @@ function setup() {
   _out API_HOME: $API_HOME
   printf "\nAPI_HOME=$API_HOME" >> $ENV_FILE
 
-  _out Done! Open your app: ${API_HOME}
-  _out Replace https://service.us.apiconnect.....54082769b/ with your custom domain
+ _out Updating function: serverless-web-app-generic/redirect
+  readonly CONFIG_FILE="${root_folder}/../function-login/config.json"
+  rm $CONFIG_FILE
+  touch $CONFIG_FILE
+  printf "{\n" >> $CONFIG_FILE
+  printf "\"client_id\": \"" >> $CONFIG_FILE
+  printf $APPID_CLIENTID >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "\"client_secret\": \"" >> $CONFIG_FILE
+  printf $APPID_SECRET >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "\"oauth_url\": \"" >> $CONFIG_FILE
+  printf $APPID_OAUTHURL >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "\"webapp_redirect\": \"" >> $CONFIG_FILE
+  printf $DOMAIN >> $CONFIG_FILE
+  printf "\",\n" >> $CONFIG_FILE
+  printf "\"redirect_uri\": \"" >> $CONFIG_FILE
+  printf $API_LOGIN >> $CONFIG_FILE
+  printf "\"\n" >> $CONFIG_FILE
+  printf "}" >> $CONFIG_FILE
+  CONFIG=`cat $CONFIG_FILE`
+  ibmcloud wsk action update serverless-web-app-generic/redirect ${root_folder}/../function-login/redirect.js --kind nodejs:8 -a web-export true -p config "${CONFIG}"
+
+  _out Done! Open your app: ${DOMAIN}/serverless/web
 }
+
+
 
 # Main script starts here
 check_tools
@@ -95,7 +122,7 @@ if [ ! -f $ENV_FILE ]; then
   exit 1
 fi
 source $ENV_FILE
-export IBMCLOUD_API_KEY BLUEMIX_REGION APPID_TENANTID APPID_OAUTHURL APPID_CLIENTID APPID_SECRET CLOUDANT_USERNAME CLOUDANT_PASSWORD COS_URL_HOME COS_URL_HOME_BASE
+export IBMCLOUD_API_KEY BLUEMIX_REGION APPID_TENANTID APPID_OAUTHURL APPID_CLIENTID APPID_SECRET CLOUDANT_USERNAME CLOUDANT_PASSWORD COS_URL_HOME COS_URL_HOME_BASE API_HOME
 
 _out Full install output in $LOG_FILE
 #ibmcloud_login

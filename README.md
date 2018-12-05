@@ -191,7 +191,7 @@ Check out the [screenshots](documentation/) in the documentation folder for more
 To deploy the OpenWhisk function and the API, invoke the following command:
 
 ```
-$ scripts/setup-domain.sh
+$ scripts/setup-domain.sh https://[yourdomain.com]
 ```
 
 Open the web application via https://[yourdomain.com]/serverless/web.
