@@ -151,7 +151,7 @@ function setup() {
   printf $APPID_OAUTHURL >> $CONFIG_FILE
   printf "\",\n" >> $CONFIG_FILE
   printf "\"webapp_redirect\": \"" >> $CONFIG_FILE
-  printf $API_HOME >> $CONFIG_FILE
+  printf $COS_URL_HOME >> $CONFIG_FILE
   printf "\",\n" >> $CONFIG_FILE
   printf "\"redirect_uri\": \"" >> $CONFIG_FILE
   printf $API_LOGIN >> $CONFIG_FILE

@@ -20,6 +20,7 @@ scripts/cloudant/.env
 function-login/config.json
 function-login/swagger-login.json
 function-protected/swagger-protected.json
+function-protected/config.json
 angular/node_modules
 .vscode
 angular/src/assets/config.json
