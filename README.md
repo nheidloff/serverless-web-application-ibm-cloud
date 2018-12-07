@@ -10,7 +10,12 @@ This diagram describes the architecture with the main components:
 
 ![alt text](documentation/serverless-web-app.png "architecture diagram")
 
-Check out this [deck](documentation/serverless-web-apps.pdf) to learn more about what the different components do and how they interact.
+Check out my blogs and screenshots for more details:
+
+* [Developing Serverless Web Applications on the IBM Cloud](http://heidloff.net/article/serverless-web-applications-ibm)
+* [Hosting Resources for Web Applications on the IBM Cloud](http://heidloff.net/article/hosting-static-web-resources-ibm-cloud)
+* User Authentication and Authorization in Serverless Applications (to be done)
+* [Screenshots](documentation/serverless-web-apps.pdf)
 
 Find out more about the main components:
 
