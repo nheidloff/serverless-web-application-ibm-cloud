@@ -10,6 +10,8 @@ This diagram describes the architecture with the main components:
 
 ![alt text](documentation/serverless-web-app.png "architecture diagram")
 
+Check out this [deck](documentation/serverless-web-apps.pdf) to learn more about what the different components do and how they interact.
+
 Find out more about the main components:
 
 * [IBM Cloud Functions](https://console.ng.bluemix.net/openwhisk) powered by Apache OpenWhisk
