@@ -14,16 +14,17 @@ Check out my blogs and screenshots for more details:
 
 * [Developing Serverless Web Applications on the IBM Cloud](http://heidloff.net/article/serverless-web-applications-ibm)
 * [Hosting Resources for Web Applications on the IBM Cloud](http://heidloff.net/article/hosting-static-web-resources-ibm-cloud)
-* User Authentication and Authorization in Serverless Applications (to be done)
+* [Authentication of Users in Serverless Applications](http://heidloff.net/article/user-authentication-serverless-openwhisk)
+* Authorization of Users in Serverless Applications (to be done)
 * [Screenshots](documentation/serverless-web-apps.pdf)
 
 Find out more about the main components:
 
-* [IBM Cloud Functions](https://console.ng.bluemix.net/openwhisk) powered by Apache OpenWhisk
-* [IBM Cloud Functions API Management](https://console.bluemix.net/openwhisk/apimanagement)
-* [IBM Cloud Object Storage](https://console.bluemix.net/catalog/services/cloud-object-storage)
-* [IBM App ID](https://console.bluemix.net/catalog/services/appid)
-* [IBM Cloudant](https://console.ng.bluemix.net/catalog/services/cloudant-nosql-db)
+* [IBM Cloud Functions](https://cloud.ibm.com/openwhisk) powered by Apache OpenWhisk
+* [IBM Cloud Functions API Management](https://cloud.ibm.com/openwhisk/apimanagement)
+* [IBM Cloud Object Storage](https://cloud.ibm.com/catalog/services/cloud-object-storage)
+* [IBM App ID](https://cloud.ibm.com/catalog/services/app-id)
+* [IBM Cloudant](https://cloud.ibm.com/catalog/services/cloudant)
 
 ## Outline
 
