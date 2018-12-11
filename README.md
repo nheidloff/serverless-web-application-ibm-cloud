@@ -15,8 +15,9 @@ Check out my blogs and screenshots for more details:
 * [Developing Serverless Web Applications on the IBM Cloud](http://heidloff.net/article/serverless-web-applications-ibm)
 * [Hosting Resources for Web Applications on the IBM Cloud](http://heidloff.net/article/hosting-static-web-resources-ibm-cloud)
 * [Authentication of Users in Serverless Applications](http://heidloff.net/article/user-authentication-serverless-openwhisk)
-* Authorization of Users in Serverless Applications (to be done)
+* [User Authorization in Serverless Web Applications](http://heidloff.net/article/user-authorization-serverless-web-applications-openwhisk)
 * [Screenshots](documentation/serverless-web-apps.pdf)
+* Short [video](documentation/serverless-web-app.mp4) of the Angular application
 
 Find out more about the main components:
 
