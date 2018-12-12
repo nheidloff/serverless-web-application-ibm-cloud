@@ -94,7 +94,7 @@ function setup() {
   CONFIG=`cat $CONFIG_FILE`
   ibmcloud wsk action update serverless-web-app-generic/redirect ${root_folder}/../function-login/redirect.js --kind nodejs:8 -a web-export true -p config "${CONFIG}"
 
-  _out Done! Open your app: ${DOMAIN}/serverless/web
+  _out Done! Open your app: ${DOMAIN}
 }
 
 
